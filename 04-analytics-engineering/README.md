@@ -5,7 +5,7 @@
 My workflow followed the standard "Data Lake to Data Warehouse" pattern.
 
 Data Pipeline: GCS to BigQuery (Green & Yellow Taxi)
-Cloud Shell Automation: Used Google Cloud Shell to run a Python ingestion script that fetched raw CSV files from the NYC TLC source.
+Cloud Shell Automation: Used Google Cloud Shell to run a Python ingestion script that fetched raw CSV files from the Data Engineering Zoomcamp source.
 
 Staging in GCS: The script uploaded the 2019 and 2020 datasets for both Green and Yellow taxis into a Google Cloud Storage (GCS) bucket, acting as a "Data Lake".
 
