@@ -1,3 +1,34 @@
+## Module 4 Homework: Methodology
+
+### Data Ingestion & Setup
+
+My workflow followed the standard "Data Lake to Data Warehouse" pattern.
+
+Data Pipeline: GCS to BigQuery (Green & Yellow Taxi)
+Cloud Shell Automation: Used Google Cloud Shell to run a Python ingestion script that fetched raw CSV files from the Data Engineering Zoomcamp source.
+
+Staging in GCS: The script uploaded the 2019 and 2020 datasets for both Green and Yellow taxis into a Google Cloud Storage (GCS) bucket, acting as a "Data Lake".
+
+BigQuery Materialization: Used the bq load command and external table definitions to move the data from the GCS bucket into the nytaxi dataset in BigQuery.
+
+Efficiency: This multi-stage process ensured that the heavy raw data was stored cost-effectively in GCS while allowing BigQuery to perform high-speed analytical queries on the final tables.
+
+
+* **FHV Data Ingestion**: Manually ingested 12 months of 2019 FHV data via Google Cloud Shell using `bq load` because the source tables were missing.
+* **Schema Resolution**: Resolved an `SR_Flag` data type mismatch (Integer vs. String) by defining an explicit schema during the ingestion loop in Cloud Shell.
+* **dbt Seeds**: Ran `dbt seed` to populate the `taxi_zone_lookup` table required for joining location data.
+
+### Model Development
+
+* **Filtering**: Applied a `where dispatching_base_num is not null` filter in `stg_fhv_tripdata.sql` to align with the homework's data quality requirements.
+* **Record Verification**: Confirmed the FHV 2019 count as **22,998,722** after applying the null filter.
+
+### Overcoming Technical Blockers
+
+* **Resource Limits**: Encountered a "Bytes Billed" error due to a 1GB limit. Fixed this by increasing the dbt Cloud connection limit to 20GB to handle the 15GB scan required for unioning large datasets.
+* **Target Configuration**: Resolved a profile error by updating credentials to include a `prod` target, ensuring models were materialized in the correct production dataset.
+
+
 # Module 4: Analytics Engineering
 
 Goal: Transforming the data loaded in DWH into Analytical Views developing a [dbt project](taxi_rides_ny/README.md).
